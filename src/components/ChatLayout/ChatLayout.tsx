@@ -1,3 +1,5 @@
+"use client";
+
 // Main chat layout. Handle the most of the services requests, and combine all the child components together
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
@@ -28,7 +30,7 @@ import UserMessage from "../MessageCard/UserMessage";
 import TextInput from "../TextInput/TextInput";
 import "./ChatLayout.css";
 
-export default function ChatWindow() {
+export default function ChatLayout() {
   const { isDarkMode, toggleTheme, getInitialThemeMode } = useThemeContext();
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<MessageRound[]>([]); //the messages list, history messages

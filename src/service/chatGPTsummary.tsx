@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_APP_API_KEY;
+const API_KEY = process.env.API_KEY;
 //TODO: Change this to your key!!
 
 //This function is called when articles are fetched,
