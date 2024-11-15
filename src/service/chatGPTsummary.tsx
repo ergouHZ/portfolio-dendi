@@ -6,7 +6,7 @@ const API_KEY = process.env.API_KEY;
 //if connect error, will retry 2 times maximum
 async function chatGPTFinalAnswerHandler(prompt: string,retryCount = 2): Promise<string> {
     try {
-        const data = await fetch("/api/v1/chat/completions", {
+        const data = await fetch("https://api.openai.com/api/v1/chat/completions", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${API_KEY}`,

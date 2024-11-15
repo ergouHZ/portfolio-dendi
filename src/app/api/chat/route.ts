@@ -1,71 +1,91 @@
-import { MessageRound, openAiMessage } from "../utils/entity/Messages";
+import { NextResponse } from 'next/server';
+import { MessageRound, openAiMessage } from "../../../utils/entity/Messages";
 
 const API_KEY = process.env.API_KEY;
 //TODO: Change this to your key!!
 
 //if connect error, will retry 2 times maximum
 async function chatGPThandler(
-  messagesOpenAi: openAiMessage[],
-  retryCount = 2
+    messagesOpenAi: openAiMessage[],
+    retryCount = 2
 ): Promise<string> {
-  try {
-    const data = await fetch("https://api.openai.com/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: messagesOpenAi,
-        max_tokens: 300,
-      }),
-    });
+    try {
+        const data = await fetch("https://api.openai.com/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: messagesOpenAi,
+                max_tokens: 300,
+            }),
+        });
 
-    const response = await data.json();
-    const message: string = response.choices[0].message.content;
-    return message; // Return the message, if successfully
-  } catch (err) {
-    if (retryCount > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 900)); //  delay before retrying
-      return chatGPThandler(messagesOpenAi, retryCount - 1);
-    } else {
-      console.error(err);
-      throw err;
+        const response = await data.json();
+        const message: string = response.choices[0].message.content;
+        return message; // Return the message, if successfully
+    } catch (err) {
+        if (retryCount > 0) {
+            await new Promise((resolve) => setTimeout(resolve, 900)); //  delay before retrying
+            return chatGPThandler(messagesOpenAi, retryCount - 1);
+        } else {
+            console.error(err);
+            throw err;
+        }
     }
-  }
 }
 
 export default chatGPThandler;
 
 //get historical messages from openai, and format the messages to send again, makeit like a conversation
 export function convertToOpenAIFormat(
-  messages: MessageRound[],
-  prompt: string
+    messages: MessageRound[],
+    prompt: string
 ): openAiMessage[] {
-  const openAIMessages: openAiMessage[] = [];
+    const openAIMessages: openAiMessage[] = [];
 
-  //add system prompt to the first
-  openAIMessages.push({
-    role: "system",
-    content: systemPrompt,
-  });
-
-  messages.flatMap((messageRound) => {
+    //add system prompt to the first
     openAIMessages.push({
-      role: "user",
-      content: messageRound.userMessage,
+        role: "system",
+        content: systemPrompt,
+    });
+
+    messages.flatMap((messageRound) => {
+        openAIMessages.push({
+            role: "user",
+            content: messageRound.userMessage,
+        });
+        openAIMessages.push({
+            role: "assistant",
+            content: messageRound.summary || "No summary available",
+        });
     });
     openAIMessages.push({
-      role: "assistant",
-      content: messageRound.summary || "No summary available",
+        role: "user",
+        content: prompt,
     });
-  });
-  openAIMessages.push({
-    role: "user",
-    content: prompt,
-  });
-  return openAIMessages;
+    return openAIMessages;
+}
+
+export async function POST(req: Request) {
+    try {
+        const body = await req.json()
+        const { messages, prompt } = body
+
+        const formattedMessages = convertToOpenAIFormat(messages, prompt)
+        const response = await chatGPThandler(formattedMessages)
+
+        return NextResponse.json({ message: response })
+        
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) { // Add 'any' type to 'error' to avoid 'unknown' type error
+        return NextResponse.json(
+            { error: error.message }, // Now 'error' is of type 'any'
+            { status: 500 }
+        )
+    }
 }
 
 // tested functional systemPrompt
