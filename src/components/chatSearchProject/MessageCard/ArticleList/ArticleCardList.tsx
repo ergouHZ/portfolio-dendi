@@ -1,5 +1,5 @@
 import { Box, Grow } from "@mui/material";
-import { Article } from "../../../utils/entity/Ariticles";
+import { Article } from "../../../../utils/entity/Ariticles";
 import ArticleCard from "./ArticleCard";
 
 type Props = {

@@ -14,8 +14,8 @@ import CardContent from "@mui/material/CardContent";
 import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { Article } from "../../../utils/entity/Ariticles";
-import TextRender from "../../../utils/TextRender";
+import { Article } from "../../../../utils/entity/Ariticles";
+import TextRender from "../../../../utils/TextRender";
 import "./ArticleCard.css";
 type Props = {
   index: number;

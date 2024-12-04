@@ -1,0 +1,17 @@
+.profile-image {
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition:all 0.2s ease-in;
+    
+}
+
+.profile-image:hover {
+    transform: scale(1.1);
+    transition:all 0.3s ease;
+}
+
+
+.first-line {
+    font-size: 20px;
+    border-color: rgb(255, 255, 255);
+}

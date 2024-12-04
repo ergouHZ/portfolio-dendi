@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import TextRender from "../../utils/TextRender";
+import TextRender from "../../../utils/TextRender";
 type Props = {
   userMessage: string;
 };

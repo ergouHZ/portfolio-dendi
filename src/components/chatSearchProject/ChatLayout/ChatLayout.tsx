@@ -13,18 +13,18 @@ import { useEffect, useRef, useState } from "react";
 //customized
 import chatGPThandler, {
   convertToOpenAIFormat,
-} from "../../service/chatGPTreq";
-import chatGPTFinalAnswerHandler from "../../service/chatGPTsummary";
-import openAlexReq from "../../service/openAlexReq";
-import { useThemeContext } from "../../utils/DardThemeContext";
+} from "../../../service/chatGPTreq";
+import chatGPTFinalAnswerHandler from "../../../service/chatGPTsummary";
+import openAlexReq from "../../../service/openAlexReq";
+import { useThemeContext } from "../../../utils/DardThemeContext";
 import {
   Article,
   ArticleOpenAlex,
   Authorship,
   Keyword,
-} from "../../utils/entity/Ariticles";
-import { MessageRound, MessageRoundClass } from "../../utils/entity/Messages";
-import ExtractUrl from "../../utils/ExtractUrl";
+} from "../../../utils/entity/Ariticles";
+import { MessageRound, MessageRoundClass } from "../../../utils/entity/Messages";
+import ExtractUrl from "../../../utils/ExtractUrl";
 import AiMessage from "../MessageCard/AiMessage";
 import UserMessage from "../MessageCard/UserMessage";
 import TextInput from "../TextInput/TextInput";

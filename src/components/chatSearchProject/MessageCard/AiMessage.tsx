@@ -1,6 +1,6 @@
 import { Avatar, Box, LinearProgress, Typography } from "@mui/material";
-import { Article } from "../../utils/entity/Ariticles";
-import TextRender from "../../utils/TextRender";
+import { Article } from "../../../utils/entity/Ariticles";
+import TextRender from "../../../utils/TextRender";
 import ArticleCardList from "./ArticleList/ArticleCardList";
 type Props = {
   summary: string | null;
