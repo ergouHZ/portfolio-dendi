@@ -1,13 +1,25 @@
+/* defualt them if not dark mode */
 :root {
-  --background: #ffffff;
+  --background: #fceed7;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #222222;
     --foreground: #ededed;
   }
+}
+
+[data-theme='dark'] {
+  --background: #222222;
+  --foreground: #ededed;
+}
+
+[data-theme='light'] {
+  --background: #faefdf;
+  --foreground: #171717;
+  --okay:#f9ef9d;
 }
 
 html,
@@ -39,4 +51,25 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.page-transition-enter {
+  opacity: 0;
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.page-transition-exit {
+  opacity: 1;
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+footer{
+  font: 0.8em sans-serif;
+  color: #b6b5b5ac;
+  justify-items: center;
 }

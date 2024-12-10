@@ -31,8 +31,8 @@ export default function SelfStatement() {
         <br />
         <br />
         Former Sound Engineer & Designer
-        <br /> Lead guitarist in a band (favorite guitar brand is Fender; <br />
-        Also do composition and mixing as a hobby)
+        <br /> Lead guitarist in a band (favorite guitar brand is Fender); <br />
+
         <br />
       </Grid>
     </LevelList>

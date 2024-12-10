@@ -15,13 +15,10 @@ const LevelList: React.FC<Props> = (props: Props) => {
         container
         spacing={2}
         sx={{
-          maxWidth: "820px",
+          maxWidth: "760px",
           alignItems: "center",
           margin: 2,
-          backgroundColor: "rgb(20, 20, 20)",
-          border: "1.5px solid rgb(255, 255, 255)",
-          borderRadius: "20px",
-          borderColor: "rgb(255, 255, 255)",
+          backgroundColor: "var(--background)",
           padding: 3,
         }}
       >

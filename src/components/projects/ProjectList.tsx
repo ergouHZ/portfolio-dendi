@@ -1,7 +1,7 @@
 "use client";
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import ProjectCard from "../ProjectCard/ProjectCard";
+import ProjectCard from "./ProjectCard/ProjectCard";
 export default function ProjectList() {
   return (
     <Box
@@ -9,10 +9,6 @@ export default function ProjectList() {
         maxWidth: "820px",
         alignItems: "center",
         margin: 2,
-        backgroundColor: "rgb(20, 20, 20)",
-        border: "1.5px solid rgb(255, 255, 255)",
-        borderRadius: "20px",
-        borderColor: "rgb(255, 255, 255)",
         padding: 3,
       }}
     >

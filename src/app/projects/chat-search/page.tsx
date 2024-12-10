@@ -1,11 +1,8 @@
-import ChatLayout from "@/components/chatSearchProject/ChatLayout/ChatLayout";
-import { ThemeProviderWrapper } from "../../../utils/DardThemeContext";
+import ChatLayout from "@/components/ChatSearchProject/ChatLayout/ChatLayout";
 export default function page() {
   return (
     <div>
-        <ThemeProviderWrapper>
         <ChatLayout />
-        </ThemeProviderWrapper>
     </div>
   )
 }

@@ -22,9 +22,11 @@ export default function TitleHi() {
         alignItems: "center", //
       }}
     >
-      <Typography variant="h4" component="h3">
-        Hey, My name is Dendi
-      </Typography>
+      <Box>
+        <Typography variant="h4" component="h3">
+          Hey, My name is Dendi
+        </Typography>
+      </Box>
       <Box sx={{ display: "flex", flex: 0.2 }}>
         <a
           href="https://www.linkedin.com/in/dendi-zhan"
@@ -54,7 +56,6 @@ export default function TitleHi() {
       <Drawer open={open} onClose={toggleDrawer(false)}>
         <Box
           sx={{
-            
             direction: "column",
             alignItems: "center",
             justifyContent: "center",

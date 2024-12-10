@@ -1,43 +1,33 @@
 "use client";
+import ResponsiveAppBar from "@/components/AppBar";
 import EducationList from "@/components/EducationList/EducationList";
 import ProjectList from "@/components/projects/ProjectList";
-import SelfStatement from "@/components/selfStatement/SelfStatement";
 import TitleHi from "@/components/TitleHi/TitleHi";
-import { Box, Button } from "@mui/material";
-import { ThemeProviderWrapper } from "../utils/DardThemeContext";
+import { Box } from "@mui/material";
+
 export default function Home() {
-  async function fetchHello() {
-    try {
-      const response = await fetch('/api/hello');
-      const data = await response.json();
-      console.log(data.message); // 输出 "Hello, World!"
-    } catch (error) {
-      console.error('Error fetching hello:', error);
-    }
-  }
-  
-  
   return (
-    <ThemeProviderWrapper>
+    <Box>
+      <ResponsiveAppBar />
       <Box
         className="main-container"
         sx={{
-          padding: 4,
+          paddingLeft: 4,
+          paddingRight: 4,
+          paddingTop: 10,
+
           justifySelf: "center",
+          maxWidth: "760px",
         }}
       >
+
         <TitleHi />
-        <SelfStatement />
         <EducationList />
         <ProjectList />
-        <Button
-  onClick={() => {
-    fetchHello();
-  }}
->
-  Click me
-</Button>
       </Box>
-    </ThemeProviderWrapper>
+      <footer className="footer">
+        <p>@  2024 Dendi.z eeeegou.</p>
+      </footer>
+    </Box>
   );
 }

@@ -1,12 +1,10 @@
 "use client";
 
 // Main chat layout. Handle the most of the services requests, and combine all the child components together
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { Box, Fab, Switch } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect, useRef, useState } from "react";
@@ -16,7 +14,6 @@ import chatGPThandler, {
 } from "../../../service/chatGPTreq";
 import chatGPTFinalAnswerHandler from "../../../service/chatGPTsummary";
 import openAlexReq from "../../../service/openAlexReq";
-import { useThemeContext } from "../../../utils/DardThemeContext";
 import {
   Article,
   ArticleOpenAlex,
@@ -31,7 +28,6 @@ import TextInput from "../TextInput/TextInput";
 import "./ChatLayout.css";
 
 export default function ChatLayout() {
-  const { isDarkMode, toggleTheme, getInitialThemeMode } = useThemeContext();
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<MessageRound[]>([]); //the messages list, history messages
   const [isAtPageBottom, setIsAtPageBottom] = useState(true);
@@ -41,8 +37,6 @@ export default function ChatLayout() {
 
   //when the component is loaded, get the default local theme, and set the web. And this hook will get the messages list from local
   useEffect(() => {
-    getInitialThemeMode();
-
     const storedMessages = localStorage.getItem("messages");
     if (storedMessages) {
       const messagesList = JSON.parse(storedMessages);
@@ -260,16 +254,12 @@ export default function ChatLayout() {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "20px",
-          color: isDarkMode ? "white" : "black",
           position: "fixed",
           top: 0,
           width: "100%",
         }}
       >
-        <Box display="flex" alignItems="center">
-          <Switch checked={isDarkMode} onChange={toggleTheme} />
-          {isDarkMode ? <DarkModeIcon /> : <WbSunnyIcon />}
-        </Box>
+        
       </Box>
       <div className="message-container" ref={messageContainerRef}>
         <Container className="message-content-container" maxWidth="md">
