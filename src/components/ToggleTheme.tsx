@@ -1,46 +1,94 @@
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
-export default function ToggleTheme() {
-  const [theme, setTheme] = useState(() => {
-    // Check user's previously saved theme preference
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) return savedTheme;
+'use client'
 
-      // check the computer settings
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "dark";
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import { Box, Fade, Slide } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+export default function ToggleTheme () {
+ 
+  const [checked, setChecked] = useState(true)
+  const [buttonColor, setButtonColor] = useState('light') // use different state here to change the color of the button in different time
+
+  const containerRef = useRef()
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        return savedTheme;
+      } else {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
     }
-    return "light";
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-
-    //set the them to localStorage
-    localStorage.setItem("theme", theme);
+    return 'light';
   });
 
   const toggleThemeMode = () => {
-    console.log("toggleThemeMode", theme);
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+    setTheme(theme === 'light' ? 'dark' : 'light')
+
+    setChecked(false) // toggle the switch
+    setTimeout(() => {
+      setButtonColor(buttonColor === 'light' ? 'dark' : 'light')
+
+      setChecked(true)
+    }, 300)
+  }
+
+  //call this function when theme is updated, if these are in the toggle function, it is not working when initialization
+  useEffect(() => {
+    //this attribute is the actual one which changes the theme
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
 
   return (
-    <Box display="flex" alignItems="center">
-      {/* <Switch  onChange={toggleThemeMode} />
+    <Slide
+      direction={'up'}
+      in={checked}
+      mountOnEnter
+      container={containerRef.current}
+    >
+      <Box>
+        <Fade in={checked}>
+          <Box
+            ref={containerRef}
+            onClick={toggleThemeMode}
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+            sx={{
+              background: buttonColor === 'light' ? '#005e9f' : '#f9ef9d',
+              borderRadius: '12%',
+              cursor: 'pointer', // 光标在hover时变成手指
+              '&:hover': {
+                background: buttonColor === 'light' ? '#1265ba' : '#e6d77c' // 根据主题模式调整颜色
+              }
+            }}
+          >
+            {/* <Switch  onChange={toggleThemeMode} />
   {theme ==="dark" ? <DarkModeIcon /> : <WbSunnyIcon />} */}
-      <Button
-        onClick={toggleThemeMode}
-        sx={{
-          color: theme === "light"?"#003e8f":"#f9ef9d",
-        }}
-      >
-        {theme === "light" ? <DarkModeIcon /> : <WbSunnyIcon />}
-      </Button>
-    </Box>
-  );
+
+            <Box
+              onClick={toggleThemeMode}
+              sx={{
+                display: 'flex',
+                color: buttonColor === 'light' ? '#ffffff' : '#000000',
+                borderRadius: '12%',
+                width: '36px',
+                height: '36px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              {buttonColor === 'light' ? (
+                <DarkModeIcon />
+              ) : (
+                <LightModeOutlinedIcon />
+              )}
+            </Box>
+          </Box>
+        </Fade>
+      </Box>
+    </Slide>
+  )
 }

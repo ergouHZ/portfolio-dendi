@@ -2,24 +2,28 @@
 :root {
   --background: #fceed7;
   --foreground: #171717;
+  --bar:#f3ece3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #222222;
     --foreground: #ededed;
+    --bar:#272626;
   }
 }
 
 [data-theme='dark'] {
   --background: #222222;
   --foreground: #ededed;
+  --bar:#272626;
 }
 
 [data-theme='light'] {
   --background: #faefdf;
   --foreground: #171717;
   --okay:#f9ef9d;
+  --bar:#fff5ea;
 }
 
 html,

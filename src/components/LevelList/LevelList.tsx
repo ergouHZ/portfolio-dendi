@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React from "react";
 type Props = {
@@ -8,9 +8,10 @@ type Props = {
 //每一横向级所用的组件
 const LevelList: React.FC<Props> = (props: Props) => {
   return (
-    <div>
+    <Box sx={{
+      marginTop: 0
+    }}>
       {props.title && <Typography variant="h5">{props.title}</Typography>}
-      
       <Grid
         container
         spacing={2}
@@ -24,7 +25,7 @@ const LevelList: React.FC<Props> = (props: Props) => {
       >
         {props.children}
       </Grid>
-    </div>
+    </Box>
   );
 };
 

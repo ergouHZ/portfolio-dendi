@@ -67,7 +67,7 @@ export default function EducationList() {
                 component="div"
                 sx={{ color: "text.secondary" }}
               >
-                Kaleidoscope Media
+                Kaleidoscope 
               </Typography>
             </CardContent>
 

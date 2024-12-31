@@ -5,52 +5,338 @@ License: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 Source: https://sketchfab.com/3d-models/super-mario-bros-1-1-all-stars-3d-77f5672f40bb400688ec057390ed8aa6
 Title: Super Mario Bros 1-1 ALL-Stars 3D
 */
+import { useGLTF } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import { useEffect, useRef, useState } from 'react';
 
-import { useGLTF } from '@react-three/drei'
-import React from 'react'
 
-export function Model(props) {
-  const { nodes, materials } = useGLTF('/super_mario_bros_1-1_all-stars_3d.glb')
+
+
+export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...props }) {
+  // const {gl,viewport} = useThree();
+
+  // const lastX = useRef (0)
+  // const lastY = useRef (0);
+  // const rotatingSpeed = useRef (0);
+  const dampingFactor = 0.996
+
+  // const handleMouseDown = (e) => {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+  //   setIsRotating(true);
+
+  //   const clientX = e.touches?
+  //   e.touches[0].clientX : e.clientX;
+
+  //   lastX.current = clientX;
+  // }
+  // const handleMouseMove = (e) => {
+
+  // }
+  // const handleMouseUp = (e) => {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+  //   setIsRotating(false);
+  // }
+
+  const [mmDirPosition, setMmDirPosition] = useState([0.015, [0, 0, 0]]) //first one is directon , second one is position [x,y,z]
+  const [mmScale, setMmScale] = useState([1, 1, 1]);
+  const [bounce, setBounce] = useState(0);
+  //grass animation
+  const [waveOffset, setWaveOffset] = useState(0);
+
+  //mario movement controller
+  const acceleration = 0.0015; // 加速度
+  const movingSpeedDamping = 0.96; // 阻尼系数，接近1表示减速更慢
+  const maxSpeed = 0.04; //the moving speed when pressed, updating in frames
+  const [currentSpeed, setCurrentSpeed] = useState(0);
+  const [marioPosition, setMarioPosition] = useState([0, 0, 0]);
+  const [moveDirection, setMoveDirection] = useState([0, 0, 0]);
+  const [isMoveStopped, setIsMoveStopped] = useState(true);
+
+  //jumping simulation
+  const gravity = -0.008; // 模拟重力
+  const jumpSpeed = 2;  // 初始跳跃速度
+  let verticalSpeed = 0;   // 竖直速度
+  const [isJumping, setIsJumping] = useState(false);
+
+  const flipSpeed = 0.08;
+  const [marioRotation, setMarioRotation] = useState([Math.PI / 2, 0, 0])
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      setIsMoveStopped(false);
+      
+      switch (event.key) {
+        case 'ArrowUp':
+          verticalSpeed = jumpSpeed;
+          event.preventDefault();
+          setIsJumping(true);
+          setMoveDirection([0, 1, 0]);
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          setMoveDirection([0, -1, 0]);
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          setMoveDirection([1, 0, 0]);
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          setMoveDirection([-1, 0, 0]);
+          break;
+        default:
+          setMoveDirection([0, 0, 0]);
+          break;
+      }
+    };
+
+    const handleKeyUp = () => {
+      // setMoveDirection([0, 0, 0]); // stop moving when released
+      setIsMoveStopped(true);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
+
+  const marioRef = useRef();
+  const { nodes, materials } = useGLTF('/assets/mario_final.glb')
+
+  useFrame(() => {
+    marioMovingController();
+    controlAutoRotation();
+    mushroomWondering();
+    animateGrass();
+
+    flipMariors();
+  })
+
+  const marioMovingController = () => {
+    //this method includes acceleration and damping
+    if (!isMoveStopped) {
+      setCurrentSpeed((speed) => Math.min(speed + acceleration, maxSpeed));
+    } else {
+      setCurrentSpeed((speed) => speed * movingSpeedDamping);
+    }
+
+
+    if (isJumping || marioPosition[1] > 0) {
+      verticalSpeed += gravity; // 施加重力影响
+      setMarioPosition((prev) => [
+        prev[0] + moveDirection[0] * currentSpeed,
+        prev[1] + verticalSpeed,
+        prev[2],
+      ]);
+
+      // 检查落到地面时的情况
+      if (marioPosition[1] <= 0) {
+        setMarioPosition((prev) => [prev[0], 0, prev[2]]);
+        verticalSpeed = 0;
+        setIsJumping(false);
+      }
+    } else {
+      setMarioPosition((prev) => [
+        prev[0] + moveDirection[0] * currentSpeed,
+        prev[1],
+        prev[2],
+      ]);
+    }
+  }
+
+  const mushroomWondering = () => {
+    const direction = mmDirPosition[0];
+    const position = mmDirPosition[1];
+
+    //update position
+    const newPosition = [position[0] + direction, 0 + bounce, 0];
+    setMmDirPosition([direction, newPosition]);
+
+    //direction detection
+    if (newPosition[0] >= 8) {
+      setMmDirPosition([-0.015, newPosition]);
+    }
+    if (newPosition[0] <= -4.6) {
+      setMmDirPosition([0.015, newPosition]);
+    }
+
+    // 更新缩放
+    const newScale = 1 + 0.055 * Math.sin(newPosition[0] * 3.3);
+    setMmScale([newScale, newScale, 1]);
+
+    //
+    const newBounce = 0.02 * Math.cos(mmDirPosition[1][0] * 8);
+    setBounce(newBounce);
+  }
+
+  const controlAutoRotation = () => {
+    if (autoSpeed >= 1.5) {
+      setAutoSpeed(autoSpeed * dampingFactor)
+      // console.log('setAutoSpeed', autoSpeed)
+    }
+
+  }
+
+  const animateGrass = () => {
+    setWaveOffset(prev => prev + 0.042);
+  };
+
+  const flipMariors = () => {
+    if (Math.abs(marioRotation[2] - Math.PI) > 0.05) {
+      setMarioRotation(prev => [Math.PI / 2, 0, prev[2] + flipSpeed]);
+    }
+  }
+
+  const platformRef = useRef()
+  const brickRefs = useRef([])
+  const mario = useRef();
+
+
+
   return (
-    <group {...props} dispose={null}>
+    <group ref={marioRef} {...props} dispose={null}
+      position={position}
+      scale={scale}
+      rotation={rotation}
+    >
+      <group>
+        {/* Platform mesh */}
+        <mesh
+          ref={platformRef}
+          geometry={nodes.Object_5.geometry}
+          material={materials.material_0}
+          position={[0.06, 1.69, 0]}
+        />
+
+        {/* Bricks mesh */}
+        {[nodes.Object_8, nodes.Object_10, nodes.Object_12, nodes.Object_14, nodes.Object_17, nodes.Object_19, nodes.Object_21].map((node, index) => (
+          <mesh
+            key={index}
+            ref={(el) => (brickRefs.current[index] = el)}
+            geometry={node.geometry}
+            material={materials.material_0}
+          />
+        ))}
+      </group>
+
+      {/* this is the Mario */}
+      <group
+        ref={mario}
+        rotation={marioRotation}
+        position={marioPosition}
+      >
+        <mesh
+          geometry={nodes.Object_37.geometry}
+          material={materials.material_0}
+          position={[1.95, 0, 0]}
+        />
+      </group>
+
+
+      {/* this is mushroom */}
       <mesh
-        geometry={nodes.Object_5.geometry}
-        material={materials.material_0}
-        position={[0.06, 1.69, 0]}
+        geometry={nodes.Object_37001.geometry}
+        material={materials['material_0.002']}
+        position={mmDirPosition[1]}
+        scale={mmScale}
+        rotation={[-Math.PI / 2, Math.PI, 0]}
       />
-      <mesh geometry={nodes.Object_8.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_10.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_12.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_14.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_17.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_19.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_21.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_24.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_26.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_28.geometry} material={materials.material_0} />
-      <mesh geometry={nodes.Object_30.geometry} material={materials.material_0} />
-      <mesh
-        geometry={nodes.Object_33.geometry}
-        material={materials.material_0}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
-        geometry={nodes.Object_35.geometry}
-        material={materials.material_0}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
-        geometry={nodes.Object_37.geometry}
-        material={materials.material_0}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
-        geometry={nodes.Object_39.geometry}
-        material={materials.material_0}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
-    </group>
+
+      {/* green pipe */}
+      <group>
+        <mesh geometry={nodes.Object_24.geometry} material={materials.material_0} />
+        <mesh geometry={nodes.Object_26.geometry} material={materials.material_0} />
+        <mesh geometry={nodes.Object_28.geometry} material={materials.material_0} />
+        <mesh geometry={nodes.Object_30.geometry} material={materials.material_0} />
+      </group>
+
+      {/* grass */}
+      <group
+        position={[0, Math.sin(waveOffset * 0.5) * 0.008 - 0.1, 0]}
+        scale={[1, 1 + 0.005 * Math.sin(waveOffset), 1]}
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Object_35.geometry}
+          material={materials['material_0.001']}
+          rotation={[Math.PI / 2, 0, 0]}
+
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Object_39.geometry}
+          material={materials['material_0.001']}
+          rotation={[Math.PI / 2, 0, 0]}
+        />
+      </group>
+
+
+
+      {/* coins right */}
+      <group
+        visible={true}
+        position={[0, -1, 0]}
+      >
+        <group position={[13.5, 8, 15]}>
+          <mesh
+            geometry={nodes.Object_8001.geometry}
+            material={materials['gold_coin_texture.png']}
+            position={[-13.469, 3.634, -14.318]}
+            scale={0.09}
+          />
+        </group>
+
+        <group position={[4, 9.5, 15]}>
+          <mesh
+            geometry={nodes.Object_4.geometry}
+            material={materials['gold_coin_texture.png']}
+            position={[-4.829, 2.27, -14.318]}
+            scale={0.09}
+          />
+        </group>
+
+        <group position={[4, 9.5, 15]}>
+          <mesh
+            geometry={nodes.Object_6.geometry}
+            material={materials['gold_coin_texture.png']}
+            position={[-4.829, 2.27, -14.318]}
+            scale={0.09}
+          />
+        </group>
+      </group>
+
+      {/* coins left */}
+      <group
+        visible={true}
+        position={[0, -1, 0]}
+      >
+        <group position={[13.5, 8, 15]}>
+          <mesh
+            geometry={nodes.Object_8002.geometry}
+            material={materials['gold_coin_texture.png.001']}
+            position={[-7.411, -0.522, -14.297]}
+            scale={0.09}
+          />
+        </group>
+        <group position={[4, 9.5, 15]}>
+          <mesh
+            geometry={nodes.Object_4001.geometry}
+            material={materials['gold_coin_texture.png.001']}
+            position={[1.229, -1.886, -14.297]}
+            scale={0.09}
+          />
+        </group>
+      </group>
+    </group >
   )
 }
 
-useGLTF.preload('/assets/super_mario_bros_1-1_all-stars_3d.glb')
+useGLTF.preload('/assets/mario_final.glb')
