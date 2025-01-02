@@ -60,8 +60,6 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
   let verticalSpeed = 0;   // 竖直速度
   const [isJumping, setIsJumping] = useState(false);
 
-  const flipSpeed = 0.08;
-  const [marioRotation, setMarioRotation] = useState([Math.PI / 2, 0, 0])
   useEffect(() => {
     const handleKeyDown = (event) => {
       setIsMoveStopped(false);
@@ -115,7 +113,6 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
     mushroomWondering();
     animateGrass();
 
-    flipMariors();
   })
 
   const marioMovingController = () => {
@@ -187,11 +184,7 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
     setWaveOffset(prev => prev + 0.042);
   };
 
-  const flipMariors = () => {
-    if (Math.abs(marioRotation[2] - Math.PI) > 0.05) {
-      setMarioRotation(prev => [Math.PI / 2, 0, prev[2] + flipSpeed]);
-    }
-  }
+
 
   const platformRef = useRef()
   const brickRefs = useRef([])
@@ -228,7 +221,7 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
       {/* this is the Mario */}
       <group
         ref={mario}
-        rotation={marioRotation}
+        rotation={[Math.PI / 2, 0, 0]}
         position={marioPosition}
       >
         <mesh
@@ -283,7 +276,7 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
       {/* coins right */}
       <group
         visible={true}
-        position={[0, -1, 0]}
+        position={[0, -0.2, 0]}
       >
         <group position={[13.5, 8, 15]}>
           <mesh
@@ -316,7 +309,7 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
       {/* coins left */}
       <group
         visible={true}
-        position={[0, -1, 0]}
+        position={[0, -0.2, 0]}
       >
         <group position={[13.5, 8, 15]}>
           <mesh

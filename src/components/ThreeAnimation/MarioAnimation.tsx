@@ -21,7 +21,7 @@ export default function MarioAnimation() {
 
   useEffect(() => {
     const adjustModelForScreenSize = () => {
-      let screenScale = [1.45, 1.45, 1.45]
+      let screenScale = [1.4, 1.4, 1.4]
 
       if (window.innerWidth < 768) {
         screenScale = [1.5, 1.5, 1.5]

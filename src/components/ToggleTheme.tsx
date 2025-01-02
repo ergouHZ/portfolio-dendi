@@ -10,12 +10,15 @@ export default function ToggleTheme () {
   const [buttonColor, setButtonColor] = useState('light') // use different state here to change the color of the button in different time
 
   const containerRef = useRef()
+  
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
+        
         return savedTheme;
       } else {
+
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
     }
@@ -38,6 +41,8 @@ export default function ToggleTheme () {
     //this attribute is the actual one which changes the theme
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
+    setButtonColor(theme);
+    console.log('theme updated',theme)
   }, [theme])
 
   return (

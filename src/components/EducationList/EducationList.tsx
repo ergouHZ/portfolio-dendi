@@ -1,3 +1,4 @@
+'use client'
 import { CardPlayList } from "@/entity/playList";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";

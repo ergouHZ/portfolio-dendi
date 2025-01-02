@@ -1,15 +1,14 @@
 "use client"
 
-import EducationList from '@/components/EducationList/EducationList'
-import ProjectList from '@/components/projects/ProjectList'
+import SelfStatement from '@/components/selfStatement/SelfStatement'
+import TitleHi from '@/components/TitleHi/TitleHi'
 import { Box } from '@mui/material'
 
 export default function page () {
   return (
     <Box>
-    
-      <EducationList />
-      <ProjectList />
+      <TitleHi />
+      <SelfStatement/>
     </Box>
   )
 }

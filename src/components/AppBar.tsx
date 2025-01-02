@@ -10,10 +10,11 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Link from 'next/link'
 import * as React from 'react'
 import ToggleTheme from './ToggleTheme'
 
-const pages = ['Project', 'Work', 'Blog']
+const pages = ['project', 'experience', 'blog']
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -35,18 +36,17 @@ const ResponsiveAppBar = () => {
         boxShadow: '0 0px 0px 0px rgba(0, 0, 0, 0.2)',
         height: '56px',
         alignItems: 'center',
-        alignContent:'center',
-        alignSelf: 'center',
+        alignContent: 'center',
+        alignSelf: 'center'
       }}
     >
-      <Container maxWidth='xl' >
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
           <Typography
             variant='h6'
             noWrap
-            component='a'
-            href='#app-bar-with-responsive-menu'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -57,7 +57,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none'
             }}
           >
-            Dendi Zhan
+            <Link href={'/'}>Dendi Zhan</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -91,22 +91,24 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography
-                    sx={{ textAlign: 'center', color: 'var(--foreground)' }}
-                  >
-                    {page}
-                  </Typography>
-                </MenuItem>
+                <Link href={'/home/' + page} key={page}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography
+                      sx={{ textAlign: 'center', color: 'var(--foreground)' }}
+                    >
+                      {page}
+                    </Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
+
           <PetsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant='h5'
             noWrap
             component='a'
-            href='#app-bar-with-responsive-menu'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -122,25 +124,26 @@ const ResponsiveAppBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map(page => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'var(--foreground)', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link href={'/home/' + page} key={page}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'var(--foreground)', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
           <Box
             sx={{
               flexGrow: 0,
               alignItems: 'center',
-              marginBottom:'8px'
+              marginBottom: '8px'
             }}
           >
             <ToggleTheme />
           </Box>
-          
         </Toolbar>
       </Container>
     </AppBar>

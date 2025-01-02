@@ -17,16 +17,18 @@ type Props = {
 };
 
 export default function ProjectCard({ title, link, image, github }: Props) {
-  const openGithub = (url: string | undefined) => {
+
+  const openGithub = (url: string | undefined,event:React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (url) {
-      // window.open(url);
-      window.open(url, "_blank", "width=600,height=400");
+      window.open(url);
     }
   };
 
   return (
     <Card className="card-container" sx={{ maxWidth: 400 }}>
-      <Link href={link} target="_blank">
+      <Link href={link}>
         <CardMedia
           sx={{ height: 160, borderRadius: "16px" }}
           image={image}
@@ -44,7 +46,7 @@ export default function ProjectCard({ title, link, image, github }: Props) {
             </Typography>
             {github ? (
               <Button
-                onClick={() => openGithub(github)}
+                onClick={(event) => openGithub(github,event)}
                 size="small"
                 variant="outlined"
                 startIcon={<GitHubIcon />}
