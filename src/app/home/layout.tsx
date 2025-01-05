@@ -1,10 +1,26 @@
 'use client'
 import MarioAnimation from '@/components/ThreeAnimation/MarioAnimation'
 import { Box } from '@mui/material'
+import { AnimatePresence, motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import React from 'react'
 import './layout.css'
-
+// 淡入滑动效果
+const pageVariants = {
+  initial: {
+    opacity: 0.2,
+    y: 50
+  },
+  animate: {
+    opacity: 1,
+    y: 0
+    
+  },
+  exit: {
+    opacity: 0,
+    y: 120
+  }
+}
 
 export default function HomeLayout ({
   children
@@ -13,29 +29,21 @@ export default function HomeLayout ({
 }) {
   const pathname = usePathname()
   //change the state when the route is changed
-  const [isTransitioning, setIsTransitioning] = useState(true)
-  const [boxClass,setBoxClass] = useState('fade-up-enter')
-
-  useEffect(() => {
-
-
-    setIsTransitioning(!isTransitioning)
-
-    setBoxClass('fade-up-enter')
-
-    setTimeout(() => {
-      setIsTransitioning(true)
-      setBoxClass('fade-up-enter fade-up-enter-active')
-    }, 400)
-  }, [pathname])
-
 
   return (
     <Box>
       <MarioAnimation />
-
-      <Box className = {boxClass}
-      >{children}</Box>
+      <AnimatePresence mode='wait' initial={false}>
+        <motion.div
+          key={pathname}
+          variants={pageVariants}
+          initial='initial'
+          animate='animate'
+          transition={{ duration: 0.55 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </Box>
   )
 }

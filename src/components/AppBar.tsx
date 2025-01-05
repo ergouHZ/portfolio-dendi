@@ -11,12 +11,14 @@ import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import ToggleTheme from './ToggleTheme'
 
 const pages = ['project', 'experience', 'blog']
 
 const ResponsiveAppBar = () => {
+  const pathname = usePathname()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,26 +42,40 @@ const ResponsiveAppBar = () => {
         alignSelf: 'center'
       }}
     >
-      <Container maxWidth='xl'>
+      <Container maxWidth='md'>
         <Toolbar disableGutters>
-          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/*MOBILE*/}
 
-          <Typography
-            variant='h6'
-            noWrap
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 600,
-              letterSpacing: '.2rem',
-              color: 'var(--foreground)',
-              textDecoration: 'none'
+              display: 'flex',
+              alignItems: 'center',
+              '& svg': {
+                transition: 'transform 200ms ease'
+              },
+              '&:hover svg': {
+                transform: 'rotate(20deg)'
+              }
             }}
           >
-            <Link href={'/'}>Dendi Zhan</Link>
-          </Typography>
+            <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
 
+            <Typography
+              variant='h6'
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 600,
+                letterSpacing: '.2rem',
+                color: 'var(--foreground)',
+                textDecoration: 'none'
+              }}
+            >
+              <Link href={'/'}>Dendi Zhan</Link>
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size='large'
@@ -92,9 +108,24 @@ const ResponsiveAppBar = () => {
             >
               {pages.map(page => (
                 <Link href={'/home/' + page} key={page}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      backgroundColor:
+                        pathname === `/home/${page}`
+                          ? 'rgba(0, 0, 0, 0.2)'
+                          : 'inherit'
+                    }}
+                  >
                     <Typography
-                      sx={{ textAlign: 'center', color: 'var(--foreground)' }}
+                      sx={{
+                        textAlign: 'center',
+                        color:
+                          pathname === `/home/${page}`
+                            ? 'primary.main'
+                            : 'var(--foreground)'
+                      }}
                     >
                       {page}
                     </Typography>
@@ -104,6 +135,7 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
 
+          {/* Pc */}
           <PetsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant='h5'
@@ -128,7 +160,16 @@ const ResponsiveAppBar = () => {
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'var(--foreground)', display: 'block' }}
+                  sx={{
+                    my: 2,
+                    backgroundColor:
+                      pathname === `/home/${page}`
+                        ? 'var(--activate)'
+                        : 'inherit',
+                    color: 'var(--foreground)',
+
+                    display: 'block'
+                  }}
                 >
                   {page}
                 </Button>

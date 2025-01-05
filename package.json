@@ -19,6 +19,7 @@
     "@react-three/fiber": "^8.17.10",
     "dompurify": "^3.2.0",
     "emailjs": "^4.0.3",
+    "framer-motion": "^11.15.0",
     "gsap": "^3.12.5",
     "next": "14.2.16",
     "nodemailer": "^6.9.16",

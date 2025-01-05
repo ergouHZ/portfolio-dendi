@@ -9,6 +9,7 @@
   :root {
     --background: #222222;
     --foreground: #ededed;
+    --activate:#707070;
     --bar:#272626;
   }
 }
@@ -16,6 +17,7 @@
 [data-theme='dark'] {
   --background: #222222;
   --foreground: #ededed;
+  --activate:#707070;
   --bar:#272626;
 }
 
@@ -23,6 +25,7 @@
   --background: #faefdf;
   --foreground: #171717;
   --okay:#f9ef9d;
+  --activate:#e7c99c;
   --bar:#fff5ea;
 }
 

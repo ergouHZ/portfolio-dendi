@@ -47,7 +47,7 @@ export default function ToggleTheme () {
 
   return (
     <Slide
-      direction={'up'}
+      direction={'down'}
       in={checked}
       mountOnEnter
       container={containerRef.current}
@@ -63,7 +63,7 @@ export default function ToggleTheme () {
             sx={{
               background: buttonColor === 'light' ? '#005e9f' : '#f9ef9d',
               borderRadius: '12%',
-              cursor: 'pointer', // 光标在hover时变成手指
+              cursor: 'pointer', // the cursor changed
               '&:hover': {
                 background: buttonColor === 'light' ? '#1265ba' : '#e6d77c' // 根据主题模式调整颜色
               }

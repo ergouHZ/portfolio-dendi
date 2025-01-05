@@ -6,7 +6,7 @@ export default function page () {
     <Box>
       <Typography
         variant='h5'
-        sx={{ fontFamily: 'monospace', justifyContent: 'center' }}
+        sx={{ fontFamily: 'monospace', justifyContent: 'center',paddingLeft:4, }}
       >
         Projects
       </Typography>
