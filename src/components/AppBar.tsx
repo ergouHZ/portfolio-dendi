@@ -33,13 +33,15 @@ const ResponsiveAppBar = () => {
     <AppBar
       position='fixed'
       sx={{
+        top: '-4px',
         background: 'var(--bar)',
         color: 'var(--foreground)',
         boxShadow: '0 0px 0px 0px rgba(0, 0, 0, 0.2)',
-        height: '56px',
+        height: '60px',
         alignItems: 'center',
         alignContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        backdropFilter: 'blur(6px)',
       }}
     >
       <Container maxWidth='md'>

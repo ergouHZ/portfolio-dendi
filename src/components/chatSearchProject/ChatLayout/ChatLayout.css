@@ -13,7 +13,7 @@
 .chat-layout-main {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -22,10 +22,10 @@
 
 .message-container {
     flex-grow: 1; /* take the rest space */
-    width: 100%;
+    
     margin: 0;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
     margin-bottom: 0px;
     background-color: transparent;
     border-radius: 8px;
@@ -34,6 +34,7 @@
 }
 
 .message-content-container{
+    margin-top: 20px;
     justify-content: center;
     align-items: center;
     display: flex;

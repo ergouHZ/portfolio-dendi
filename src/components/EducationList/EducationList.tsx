@@ -2,11 +2,9 @@
 import { CardPlayList } from '@/entity/playList'
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
-import { useTheme } from '@mui/material/styles'
 import EducationCard from './Card/EducationCard'
 
 export default function EducationList () {
-  const theme = useTheme()
 
   const educationList: CardPlayList[] = [
     {

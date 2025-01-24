@@ -18,15 +18,16 @@
   --background: #222222;
   --foreground: #ededed;
   --activate:#707070;
-  --bar:#272626;
+  --bar:#30303081;
+  --titleBar:#2e2e2e;
 }
 
 [data-theme='light'] {
   --background: #faefdf;
   --foreground: #171717;
-  --okay:#f9ef9d;
   --activate:#e7c99c;
-  --bar:#fff5ea;
+  --bar:#f9e6d181;
+  --titleBar:#fff8ee;
 }
 
 html,

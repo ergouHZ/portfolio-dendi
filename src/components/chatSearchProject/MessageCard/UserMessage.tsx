@@ -19,9 +19,9 @@ function UserMessage({ userMessage }: Props) {
         paddingBottom:0,
         borderRadius: 2,
         width: "100%",
-        maxWidth: 880,
+        minWidth: "850px",
         marginRight: 4,
-        marginBottom: 1,
+        marginBottom: 3,
       }}
     >
       <Avatar

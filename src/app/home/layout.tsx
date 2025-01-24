@@ -5,11 +5,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import './layout.css'
-// 淡入滑动效果
+
+// fade in and slide animation
 const pageVariants = {
   initial: {
     opacity: 0.2,
-    y: 50
+    y: 80
   },
   animate: {
     opacity: 1,
@@ -39,7 +40,7 @@ export default function HomeLayout ({
           variants={pageVariants}
           initial='initial'
           animate='animate'
-          transition={{ duration: 0.55 }}
+          transition={{ duration: 0.50 }}
         >
           {children}
         </motion.div>

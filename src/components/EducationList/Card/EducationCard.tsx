@@ -147,13 +147,20 @@ export default function EducationCard ({ cardList }: Props) {
         </Slide>
       </Card>
 
-      <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
+      <Drawer
+
+        anchor='right'
+        open={open}
+        onClose={toggleDrawer(false)}
+        sx={{}}
+      >
         <Box
           sx={{
             direction: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 8
+            padding: 8,
+            backgroundColor: 'var(--bar)'
           }}
         >
           <Typography variant='h5'>{currentCard.drawerTitle}</Typography>

@@ -1,16 +1,54 @@
-import { NextResponse } from 'next/server';
 import { MessageRound, openAiMessage } from "../../../utils/entity/Messages";
+
 
 const API_KEY = process.env.API_KEY;
 //TODO: Change this to your key!!
 
+
+
 //if connect error, will retry 2 times maximum
-async function chatGPThandler(
-    messagesOpenAi: openAiMessage[],
-    retryCount = 2
-): Promise<string> {
+export async function POST(req: Request) {
+    if (req.method === 'POST') {
+        const formData = await req.formData()
+        const rawMessageRound = formData.get('MessageRound');
+
+        if (typeof rawMessageRound === 'string') {
+            try {
+                // parse the message round here
+                const messageRound: MessageRound[] = JSON.parse(rawMessageRound);
+                const prompt = formData.get('Prompt') as string;
+
+                try {
+                    const aiReq = convertToOpenAIFormat(messageRound, prompt);
+                    const chatResponse = await fetchOpenAI(aiReq, 2);
+
+                    //the success response
+                    return new Response(JSON.stringify({ message: chatResponse }), {
+                        headers: { "Content-Type": "application/json" }
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                    return Response.json({ error: 'Failed to fetch data from OpenAI' }, { status: 500 });
+                }
+
+            } catch (error) {
+                return Response.json({ error: 'Failed to parse JSON:' + error }, { status: 500 });
+            }
+        } else {
+            console.error();
+            return Response.json({ error: 'MessageRound is not a string or is null:' }, { status: 500 });
+        }
+
+    } else {
+        return Response.json({ error: `Method ${req.method} Not Allowed` }, { status: 405 });
+    }
+}
+
+
+async function fetchOpenAI(messagesOpenAi: openAiMessage[], retryCount: number) {
     try {
-        const data = await fetch("https://api.openai.com/api/v1/chat/completions", {
+        const data = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${API_KEY}`,
@@ -22,14 +60,15 @@ async function chatGPThandler(
                 max_tokens: 300,
             }),
         });
-
+        // console.log("open ai:", messagesOpenAi);
         const response = await data.json();
-        const message: string = response.choices[0].message.content;
-        return message; // Return the message, if successfully
+        const message = response.choices[0].message.content;
+        // console.log("message:", message);
+        return message; // Return the message, if successful
     } catch (err) {
         if (retryCount > 0) {
-            await new Promise((resolve) => setTimeout(resolve, 900)); //  delay before retrying
-            return chatGPThandler(messagesOpenAi, retryCount - 1);
+            await new Promise((resolve) => setTimeout(resolve, 800)); // Delay before retrying
+            return fetchOpenAI(messagesOpenAi, retryCount - 1);
         } else {
             console.error(err);
             throw err;
@@ -37,56 +76,39 @@ async function chatGPThandler(
     }
 }
 
-export default chatGPThandler;
-
 //get historical messages from openai, and format the messages to send again, makeit like a conversation
-export function convertToOpenAIFormat(
-    messages: MessageRound[],
+function convertToOpenAIFormat(
+    messages: MessageRound[] | null,
     prompt: string
 ): openAiMessage[] {
     const openAIMessages: openAiMessage[] = [];
+    if (messages !== null) {
+        //add system prompt to the first
 
-    //add system prompt to the first
-    openAIMessages.push({
-        role: "system",
-        content: systemPrompt,
-    });
+        openAIMessages.push({
+            role: "system",
+            content: systemPrompt,
+        });
 
-    messages.flatMap((messageRound) => {
+        messages.flatMap((messageRound) => {
+            openAIMessages.push({
+                role: "user",
+                content: messageRound.userMessage,
+            });
+            openAIMessages.push({
+                role: "assistant",
+                content: messageRound.summary || "No summary available",
+            });
+        });
         openAIMessages.push({
             role: "user",
-            content: messageRound.userMessage,
+            content: prompt,
         });
-        openAIMessages.push({
-            role: "assistant",
-            content: messageRound.summary || "No summary available",
-        });
-    });
-    openAIMessages.push({
-        role: "user",
-        content: prompt,
-    });
+    }
     return openAIMessages;
 }
 
-export async function POST(req: Request) {
-    try {
-        const body = await req.json()
-        const { messages, prompt } = body
 
-        const formattedMessages = convertToOpenAIFormat(messages, prompt)
-        const response = await chatGPThandler(formattedMessages)
-
-        return NextResponse.json({ message: response })
-        
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) { // Add 'any' type to 'error' to avoid 'unknown' type error
-        return NextResponse.json(
-            { error: error.message }, // Now 'error' is of type 'any'
-            { status: 500 }
-        )
-    }
-}
 
 // tested functional systemPrompt
 const systemPrompt: string = `You are a chatbot interface that helps users find research articles based on specific filters. These filters are used to generate URL structures compatible with the OpenAlex Works API. Here are the key filters and their usage:

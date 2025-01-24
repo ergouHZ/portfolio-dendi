@@ -1,8 +1,6 @@
-
 import ResponsiveAppBar from '@/components/AppBar'
 import '@fontsource/roboto/400.css'
 import { Box } from '@mui/material'
-
 import './globals.css'
 
 export const metadata = {
@@ -15,13 +13,12 @@ export default function RootLayout ({
 }: {
   children: React.ReactNode
 }) {
-  
-
+  const date = new Date()
+  const year = date.getFullYear()
   return (
     <html lang='en'>
       <body>
         <ResponsiveAppBar />
-
         <Box
           className='main-container'
           sx={{
@@ -29,15 +26,15 @@ export default function RootLayout ({
             paddingRight: 4,
             paddingTop: '60px',
             justifySelf: 'center',
-            maxWidth: '760px',
-            minHeight:'100vh'
+            maxWidth: '700px',
+            minHeight: '100vh'
           }}
         >
-
           {children}
         </Box>
+
         <footer className='footer'>
-          <p>@ 2024 Dendi.z eeeegou.</p>
+          <p>@{year} Dendi.z eeeegou.</p>
         </footer>
       </body>
     </html>

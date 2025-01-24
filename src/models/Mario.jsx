@@ -13,31 +13,8 @@ import { useEffect, useRef, useState } from 'react';
 
 
 export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...props }) {
-  // const {gl,viewport} = useThree();
-
-  // const lastX = useRef (0)
-  // const lastY = useRef (0);
-  // const rotatingSpeed = useRef (0);
   const dampingFactor = 0.996
 
-  // const handleMouseDown = (e) => {
-  //   e.stopPropagation();
-  //   e.preventDefault();
-  //   setIsRotating(true);
-
-  //   const clientX = e.touches?
-  //   e.touches[0].clientX : e.clientX;
-
-  //   lastX.current = clientX;
-  // }
-  // const handleMouseMove = (e) => {
-
-  // }
-  // const handleMouseUp = (e) => {
-  //   e.stopPropagation();
-  //   e.preventDefault();
-  //   setIsRotating(false);
-  // }
 
   const [mmDirPosition, setMmDirPosition] = useState([0.015, [0, 0, 0]]) //first one is directon , second one is position [x,y,z]
   const [mmScale, setMmScale] = useState([1, 1, 1]);
@@ -46,8 +23,8 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
   const [waveOffset, setWaveOffset] = useState(0);
 
   //mario movement controller
-  const acceleration = 0.0015; // 加速度
-  const movingSpeedDamping = 0.96; // 阻尼系数，接近1表示减速更慢
+  const acceleration = 0.0015; 
+  const movingSpeedDamping = 0.96; 
   const maxSpeed = 0.04; //the moving speed when pressed, updating in frames
   const [currentSpeed, setCurrentSpeed] = useState(0);
   const [marioPosition, setMarioPosition] = useState([0, 0, 0]);
@@ -55,9 +32,8 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
   const [isMoveStopped, setIsMoveStopped] = useState(true);
 
   //jumping simulation
-  const gravity = -0.008; // 模拟重力
-  const jumpSpeed = 2;  // 初始跳跃速度
-  let verticalSpeed = 0;   // 竖直速度
+  const gravity = -0.008;
+  let verticalSpeed = 0;
   const [isJumping, setIsJumping] = useState(false);
 
   useEffect(() => {
@@ -66,7 +42,6 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
       
       switch (event.key) {
         case 'ArrowUp':
-          verticalSpeed = jumpSpeed;
           event.preventDefault();
           setIsJumping(true);
           setMoveDirection([0, 1, 0]);
@@ -332,4 +307,3 @@ export function Mario({ position, scale, rotation, autoSpeed, setAutoSpeed, ...p
   )
 }
 
-useGLTF.preload('/assets/mario_final.glb')

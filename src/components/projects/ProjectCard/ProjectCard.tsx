@@ -14,9 +14,10 @@ type Props = {
   link: string;
   image?: string;
   github?: string;
+  description?: string;
 };
 
-export default function ProjectCard({ title, link, image, github }: Props) {
+export default function ProjectCard({ title, link, image, github,description }: Props) {
 
   const openGithub = (url: string | undefined,event:React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -58,8 +59,7 @@ export default function ProjectCard({ title, link, image, github }: Props) {
             )}
           </Box>
           <Typography className="text" variant="body2">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {description}
           </Typography>
         </CardContent>
       </Link>
