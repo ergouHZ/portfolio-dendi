@@ -63,6 +63,34 @@ export default function EducationCard ({ cardList }: Props) {
   const audioRefPrev = useRef<HTMLAudioElement>(null)
   const audioRefPlay = useRef<HTMLAudioElement>(null)
 
+  const drawerList = (
+    <Box
+      sx={{
+        direction: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 8,
+        color: 'var(--foreground)',
+      }}
+    >
+      <Typography variant='h5'>{currentCard.drawerTitle}</Typography>
+      <br></br>
+      <Typography variant='h6'>
+        {currentCard.drawerSubtitle}
+        <br></br>
+        {currentCard.drawerSubtitle2}
+        <br></br>
+        {currentCard.drawerDescription}
+      </Typography>
+      <CardMedia
+        component='img'
+        sx={{ width: 300, height: 160 }}
+        image={currentCard.drawerImage}
+        alt={currentCard.drawerTitle}
+      />
+    </Box>
+  )
+
   return (
     <Box>
       {/* sound effects */}
@@ -80,8 +108,14 @@ export default function EducationCard ({ cardList }: Props) {
           marginLeft: 6,
           marginRight: 6,
           marginTop: 3,
-          marginBottom: 2
+          marginBottom: 2,
+          transition: 'transform 0.25s ease',
+          '&:hover': {
+            cursor: 'pointer',
+            transform: 'scale(1.03)' // Hover , and scale
+          }
         }}
+        onClick={toggleDrawer(true)}
       >
         <Box
           sx={{
@@ -118,7 +152,13 @@ export default function EducationCard ({ cardList }: Props) {
               position: 'absolute'
             }}
           >
-            <IconButton onClick={movePrevious} aria-label='previous'>
+            <IconButton
+              onClick={e => {
+                e.stopPropagation() //
+                movePrevious()
+              }}
+              aria-label='previous'
+            >
               {theme.direction === 'rtl' ? (
                 <SkipNextIcon />
               ) : (
@@ -128,7 +168,13 @@ export default function EducationCard ({ cardList }: Props) {
             <IconButton onClick={toggleDrawer(true)} aria-label='play/pause'>
               <PlayArrowIcon sx={{ height: 38, width: 38 }} />
             </IconButton>
-            <IconButton onClick={moveNext} aria-label='next'>
+            <IconButton
+              onClick={e => {
+                e.stopPropagation()
+                moveNext()
+              }}
+              aria-label='next'
+            >
               {theme.direction === 'rtl' ? (
                 <SkipPreviousIcon />
               ) : (
@@ -148,37 +194,17 @@ export default function EducationCard ({ cardList }: Props) {
       </Card>
 
       <Drawer
-
         anchor='right'
         open={open}
         onClose={toggleDrawer(false)}
-        sx={{}}
+        PaperProps={{
+          sx: {
+            backdropFilter: 'blur(8px)',
+            backgroundColor: 'var(--drawer)' // White color with 80% opacity
+          }
+        }}
       >
-        <Box
-          sx={{
-            direction: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 8,
-            backgroundColor: 'var(--bar)'
-          }}
-        >
-          <Typography variant='h5'>{currentCard.drawerTitle}</Typography>
-          <br></br>
-          <Typography variant='h6'>
-            {currentCard.drawerSubtitle}
-            <br></br>
-            {currentCard.drawerSubtitle2}
-            <br></br>
-            {currentCard.drawerDescription}
-          </Typography>
-          <CardMedia
-            component='img'
-            sx={{ width: 300, height: 160 }}
-            image={currentCard.drawerImage}
-            alt={currentCard.drawerTitle}
-          />
-        </Box>
+        {drawerList}
       </Drawer>
     </Box>
   )

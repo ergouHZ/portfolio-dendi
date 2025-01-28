@@ -20,6 +20,7 @@
   --activate:#707070;
   --bar:#30303081;
   --titleBar:#2e2e2e;
+  --drawer:#23232381;
 }
 
 [data-theme='light'] {
@@ -28,6 +29,7 @@
   --activate:#e7c99c;
   --bar:#f9e6d181;
   --titleBar:#fff8ee;
+  --drawer:#f9efe281;
 }
 
 html,

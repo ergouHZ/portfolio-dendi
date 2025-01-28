@@ -1,11 +1,10 @@
 'use client'
 import { CardPlayList } from '@/entity/playList'
-import { Box, Typography } from '@mui/material'
+import { Box, Grow, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import EducationCard from './Card/EducationCard'
 
 export default function EducationList () {
-
   const educationList: CardPlayList[] = [
     {
       title: 'UCC',
@@ -31,7 +30,6 @@ export default function EducationList () {
     }
   ]
 
-
   const workList: CardPlayList[] = [
     {
       title: 'Sound Designer',
@@ -54,7 +52,18 @@ export default function EducationList () {
       drawerDescription: 'testtest whu',
       drawerSubtitle: 'Bachelor Degree',
       drawerSubtitle2: 'QS195 WHU TEST'
-    }
+    },
+    {
+      title: 'Supervisor',
+      subtitle: 'New Orientation',
+      image: '/images/education/whu.jpg',
+      color: '#103b76',
+      drawerTitle: 'Wuhan University',
+      drawerImage: '/images/education/ucc_detail.png',
+      drawerDescription: 'testtest whu',
+      drawerSubtitle: 'Bachelor Degree',
+      drawerSubtitle2: 'QS195 WHU TEST'
+    },
   ]
 
   return (
@@ -63,7 +72,7 @@ export default function EducationList () {
         maxWidth: '820px',
         alignItems: 'center',
         marginBottom: 2,
-        padding: 4,
+        padding: 4
       }}
     >
       <Grid size={6}>
@@ -72,7 +81,7 @@ export default function EducationList () {
           sx={{
             fontFamily: 'monospace',
             justifyContent: 'center',
-            marginBottom:2,
+            marginBottom: 2
           }}
         >
           Education
@@ -80,19 +89,21 @@ export default function EducationList () {
         <EducationCard cardList={educationList} />
       </Grid>
 
-      <Grid size={6}>
-        <Typography
-          variant='h5'
-          sx={{
-            fontFamily: 'monospace',
-            justifyContent: 'center',
-            marginBottom:2,
-          }}
-        >
-          Work
-        </Typography>
-        <EducationCard cardList={workList} />
-      </Grid>
+      <Grow in={true} timeout={1000}>
+        <Grid size={6}>
+          <Typography
+            variant='h5'
+            sx={{
+              fontFamily: 'monospace',
+              justifyContent: 'center',
+              marginBottom: 2
+            }}
+          >
+            Work
+          </Typography>
+          <EducationCard cardList={workList} />
+        </Grid>
+      </Grow>
     </Box>
   )
 }
