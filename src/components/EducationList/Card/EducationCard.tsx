@@ -69,8 +69,12 @@ export default function EducationCard ({ cardList }: Props) {
         direction: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 8,
+        padding: 4,
         color: 'var(--foreground)',
+        width:'40vw',
+        '@media (max-width:768px)': {
+          width:'60vw',
+        },
       }}
     >
       <Typography variant='h5'>{currentCard.drawerTitle}</Typography>
@@ -78,7 +82,9 @@ export default function EducationCard ({ cardList }: Props) {
       <Typography variant='h6'>
         {currentCard.drawerSubtitle}
         <br></br>
+        <br></br>
         {currentCard.drawerSubtitle2}
+        <br></br>
         <br></br>
         {currentCard.drawerDescription}
       </Typography>
@@ -104,6 +110,7 @@ export default function EducationCard ({ cardList }: Props) {
           backgroundColor: currentCard.color,
           justifyContent: 'space-between',
           maxHeight: '140px',
+          maxWidth: '500px',
           borderRadius: '10px',
           marginLeft: 6,
           marginRight: 6,
@@ -113,6 +120,9 @@ export default function EducationCard ({ cardList }: Props) {
           '&:hover': {
             cursor: 'pointer',
             transform: 'scale(1.03)' // Hover , and scale
+          },
+          '@media (max-width:768px)': {
+            width: '85vw'
           }
         }}
         onClick={toggleDrawer(true)}

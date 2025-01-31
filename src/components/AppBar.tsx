@@ -42,6 +42,9 @@ const ResponsiveAppBar = () => {
         alignContent: 'center',
         alignSelf: 'center',
         backdropFilter: 'blur(6px)',
+        '@media (max-width:768px)': {
+          height: '50px',
+        },
       }}
     >
       <Container maxWidth='md'>
@@ -108,16 +111,33 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none', color: 'var(--foreground)' }
               }}
             >
+              <Link href={'/home/'}>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    backgroundColor: 'var(--background)'
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      textAlign: 'center',
+                      color:
+                        pathname === `/home/`
+                          ? 'primary.main'
+                          : 'var(--foreground)'
+                    }}
+                  >
+                    Home
+                  </Typography>
+                </MenuItem>
+              </Link>
               {pages.map(page => (
                 <Link href={'/home/' + page} key={page}>
                   <MenuItem
                     key={page}
                     onClick={handleCloseNavMenu}
                     sx={{
-                      backgroundColor:
-                        pathname === `/home/${page}`
-                          ? 'rgba(0, 0, 0, 0.2)'
-                          : 'inherit'
+                      backgroundColor: 'var(--background)'
                     }}
                   >
                     <Typography

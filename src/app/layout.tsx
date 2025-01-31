@@ -27,7 +27,11 @@ export default function RootLayout ({
             paddingTop: '60px',
             justifySelf: 'center',
             maxWidth: '700px',
-            minHeight: '100vh'
+            minHeight: '100vh',
+            '@media (max-width:768px)': {
+              paddingLeft: 2,
+              paddingRight: 2,
+            }
           }}
         >
           {children}

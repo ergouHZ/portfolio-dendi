@@ -10,7 +10,11 @@ export default function ProjectList () {
         maxWidth: '820px',
         alignItems: 'center',
         margin: 2,
-        padding: 3
+        padding: 3,
+        '@media (max-width:768px)': {
+          padding: 0,
+          margin: 1,
+        },
       }}
     >
       <Grid

@@ -265,7 +265,9 @@ export default function ChatLayout () {
     <div className='chat-layout-main'>
       <CssBaseline />
 
-      <div className='message-container' ref={messageContainerRef}>
+      <Box className='message-container' ref={messageContainerRef} sx={{
+        backgroundColor: 'transparent',
+      }}>
         <Container className='message-content-container' maxWidth='md'>
           {messages.length ===0 && <h2>Find research relevant to any text</h2>}
           
@@ -311,7 +313,7 @@ export default function ChatLayout () {
             <></>
           )}
         </Container>
-      </div>
+      </Box>
       <div style={{ position: 'relative', zIndex: 1 }}>
         {messages.length !== 0 ? (
           <Fab
