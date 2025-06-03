@@ -29,6 +29,45 @@ export default function ProjectList () {
         <Grow in={true}>
           <Grid size={6}>
             <ProjectCard
+              title='Investor-simulator'
+              link='https://noob-investor.dendi.top/app'
+              image='/images/project/project-screenshot.png'
+              github='https://github.com/ergouHZ/noob-investor-simulator'
+              description="A Full-stak App Analysis tool. Clustering and analysis methods have not been validated, and AI analysis results may not be fully accurate."
+            />
+          </Grid>
+        </Grow>
+
+        {/* grow transition, fade in 1 by 1 */}
+        <Grow
+          in={true}
+          style={{ transformOrigin: '0 0 0' }}
+          timeout={1000}
+        >
+          <Grid size={6}>
+            <ProjectCard
+              title='My Profle Site'
+              image='/images/project/portfolio-screenshot.png'
+              link='https://dendi.top/'
+              github='https://github.com/ergouHZ/portfolio-dendi'
+              description="My personal profile site building React Project."
+            />
+          </Grid>
+        </Grow>
+      </Grid>
+
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          maxWidth: '800px',
+          alignItems: 'top',
+          padding: 1
+        }}
+      >
+        <Grow in={true}>
+          <Grid size={6}>
+            <ProjectCard
               title='Chat-Search'
               link='/projects/chat-search'
               image='/images/project/chat-search.png'
