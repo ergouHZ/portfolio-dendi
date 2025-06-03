@@ -6,8 +6,32 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { Box, Button, Grow, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import Image from 'next/image'
+import BadgeCustom from './BadgeCustom'
 import './SelfStatement.css'
 export default function SelfStatement () {
+  const badgeInfo = [
+    {
+      image : '/images/badge/aws-certified-cloud-practitioner.png',
+      desc : 'AWS Certified Cloud Practitioner',
+      credential : 'https://www.credly.com/badges/29ab7788-2bb9-405a-bda9-f4154a76b74f/linked_in_profile'
+    },
+    {
+      image : '/images/badge/image-java-oop.png',
+      desc : 'Java Object-Oriented Programming Fundamentals',
+      credential : 'https://leetcode.com/medal/?showImg=0&id=5600826&isLevel=false'
+    },
+    {
+      image : '/images/badge/2024-50-lg.png',
+      desc : 'LeetCode 50 days badge 2024',
+      credential : 'https://leetcode.com/medal/?showImg=0&id=5204712&isLevel=false'
+    },
+    {
+      image : '/images/badge/dcc-2024-11.png',
+      desc : 'LeetCode November challenge',
+      credential : 'https://www.coursera.org/account/accomplishments/verify/HAK8G9DRERUU'
+    },
+  ]
+
   return (
     <Box
       sx={{
@@ -38,48 +62,63 @@ export default function SelfStatement () {
       </Box>
 
       <Grow in={true} timeout={500}>
-        <Grid container>
-          <Grid
-            size={{ xs: 5, md: 9.5, sm: 7 }}
-            sx={{
-              boxSizing: 'border-box',
-              fontSize: 16
-            }}
-          >
-            <Typography
+        <Box>
+          <Grid container>
+            <Grid
+              size={{ xs: 5, md: 9.5, sm: 7 }}
               sx={{
-                textAlign: 'left',
-                fontSize: '30px',
-                fontWeight: 'bolder',
-                marginBottom: 0.5,
-                fontFamily: 'monospace',
-                letterSpacing: '0.4rem'
+                boxSizing: 'border-box',
+                fontSize: 16
               }}
             >
-              Dendi Zhan
-            </Typography>
+              <Typography
+                sx={{
+                  textAlign: 'left',
+                  fontSize: '30px',
+                  fontWeight: 'bolder',
+                  marginBottom: 0.5,
+                  fontFamily: 'monospace',
+                  letterSpacing: '0.4rem'
+                }}
+              >
+                Dendi Zhan
+              </Typography>
 
-            <Typography
-              sx={{
-                textAlign: 'left',
-                fontSize: '20px',
-                marginBottom: 0.5
-              }}
-            >
-              Digital Developer | Artist | Sound Designer
-            </Typography>
-            <br />
+              <Typography
+                sx={{
+                  textAlign: 'left',
+                  fontSize: '20px',
+                  marginBottom: 0.5
+                }}
+              >
+                Full-Stack Developer | AWS | Sound Designer
+              </Typography>
+              <br />
+            </Grid>
+            <Grid size={{ xs: 5, md: 2.5, sm: 3 }}>
+              <Image
+                src='/images/profile.jpeg'
+                alt='MYSELF'
+                width={100}
+                height={100}
+                className='profile-image'
+              />
+            </Grid>
           </Grid>
-          <Grid size={{ xs: 5, md: 2.5, sm: 3 }}>
-            <Image
-              src='/images/profile.jpeg'
-              alt='MYSELF'
-              width={100}
-              height={100}
-              className='profile-image'
-            />
+
+          {/* badges display */}
+          <Grid container>
+            {badgeInfo.map((item,index)=>
+              <BadgeCustom 
+              key = {index}
+              image={item.image}
+              desc = {item.desc}
+              credential={item.credential}
+              />
+  
+            )}
           </Grid>
-        </Grid>
+        </Box>
       </Grow>
       <br />
 
@@ -107,8 +146,10 @@ export default function SelfStatement () {
               designing front-end application pages and also like creating
               back-end algorithms, as well as interfaces and interactions with
               the front end. Currently, I am deeply studying the classic`}{' '}
-            <span className='text-important'>Java back-end SSM framwork</span>
-            ! <br />
+            <span className='text-important'>Java back-end SSM framwork</span>,
+            as well as <span className='text-important'>AWS</span>
+            {`(mostly AWS Lambda, AWS DynamoDB)`}
+            <br />
             {`Previously I was a sound effects designer, crafting sound effects
               for games and anime works. Now, I've formed a band with my friends
               in Dublin🎸, and we're rehearsing original songs. I enjoy playing

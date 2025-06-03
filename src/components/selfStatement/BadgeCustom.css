@@ -1,0 +1,23 @@
+.badge-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* 隐藏popover */
+.popover {
+    display: none;
+    position: absolute;
+    bottom: 35%;
+    left: 60%;
+    min-width: 200px;
+    margin-bottom: 8px;
+    background: var(--titleBar);
+    padding: 2px;
+    box-shadow: 0 2px 10px rgba(85, 85, 85, 0.367);
+    z-index: 1000;
+}
+
+/* 当鼠标悬停在包裹层时，显示popover */
+.badge-container:hover .popover {
+    display: block;
+}
